@@ -17,6 +17,6 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'org.ballerinalang', name: 'ballerina-lang', version: "2201.7.0-20230619-175900-bb4e4544"
-    implementation group: 'org.ballerinalang', name: 'ballerina-runtime', version: "2201.7.0-20230619-175900-bb4e4544"
+    implementation group: 'org.ballerinalang', name: 'ballerina-lang', version: "${ballerinaLangVersion}"
+    implementation group: 'org.ballerinalang', name: 'ballerina-runtime', version: "${ballerinaLangVersion}"
 }
