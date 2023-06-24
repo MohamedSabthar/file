@@ -9,18 +9,17 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class File {
-    public static Object readChunk(BString path, long start, long end) {
+    public static Object readChunk(BString path, long start, long length) {
         java.io.File file = new java.io.File(path.getValue());
         try (FileInputStream fileInputStream = new FileInputStream(file)) {
             long fileSize = file.length();
-            end = Math.min(fileSize - 1, end);
+            length = Math.min(fileSize - 1, length);
 
-            if (start < 0 || end < start || end >= fileSize) {
-                return ErrorCreator.createError(StringUtils.fromString("Invalid start or end index provided."));
+            if (start < 0 || length < 0) {
+                return ErrorCreator.createError(StringUtils.fromString("Invalid start index or length provided."));
             }
 
-            long bytesToRead = end - start;
-            byte[] fileContent = new byte[(int) bytesToRead];
+            byte[] fileContent = new byte[(int) length];
 
             // Skip to the starting index
             long skipped = fileInputStream.skip(start);
@@ -28,11 +27,7 @@ public class File {
                 return ErrorCreator.createError(StringUtils.fromString("Failed to skip to the start index."));
             }
 
-            // Read the file content into the byte array
-            int bytesRead = fileInputStream.read(fileContent);
-            if (bytesRead != bytesToRead) {
-                return ErrorCreator.createError(StringUtils.fromString("Failed to read the file content."));
-            }
+            fileInputStream.read(fileContent);
             return ValueCreator.createArrayValue(fileContent);
         } catch (IOException e) {
             return ErrorCreator.createError(StringUtils.fromString(e.getMessage()));

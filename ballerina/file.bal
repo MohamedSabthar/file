@@ -14,9 +14,9 @@ public isolated function size(string filePath) returns error|int {
 #
 # + filePath - The path to the file
 # + 'start - The starting index of the range (inclusive)
-# + end - The ending index of the range (inclusive)
+# + size - The size in bytes to read
 # + return - Return a byte array or an error
-public isolated function read(string filePath, int 'start, int end) returns error|byte[] {
+public isolated function read(string filePath, int 'start, int size) returns error|byte[] {
     file:MetaData metaData = check file:getMetaData(filePath);
     if metaData.dir {
         return error(string `Invalid file path provided: "${filePath}" is not a file`);
@@ -24,9 +24,9 @@ public isolated function read(string filePath, int 'start, int end) returns erro
     if !metaData.readable {
         return error(string `Unable to read file: "${filePath}"`);
     }
-    return readChunk(filePath, 'start, end);
+    return readChunk(filePath, 'start, size);
 }
 
-isolated function readChunk(string filePath, int 'start, int end) returns error|byte[] = @java:Method {
+isolated function readChunk(string filePath, int 'start, int length) returns error|byte[] = @java:Method {
     'class: "io.crates.File"
 } external;
