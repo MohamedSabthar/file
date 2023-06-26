@@ -4,7 +4,7 @@ This module provides an API that enables reading a file as a byte array by speci
 
 ### Example
 
-The following example shows how to read a file as a byte array by specifying a start and end byte index, along with the file path.
+The following example shows how to read a file as a byte array by specifying a start byte index and size, along with the file path.
 
 ```ballerina
     byte[] actual = check read("file.txt", 10,14);
